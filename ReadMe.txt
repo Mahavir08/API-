@@ -1,4 +1,4 @@
-It's an API Backend Node Mysql Project.
+It's an Backend API Node Mysql Project.
 It has 3 routes for register, login and user_details. User can check the routes with Postman or Reqbin.
 
 URL endpoints are :
