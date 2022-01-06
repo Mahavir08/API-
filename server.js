@@ -49,11 +49,20 @@ app.post('/register', async (req, res) => {
 
 app.post('/login', (req, res) => {
     const { email, password } = req.body;
+    if(!email)
+    {
+        res.json({message:'Please Enter an Email'});
+    }
+    else
+    {
     const options = { expires: new Date(Date.now() + 120000), httpOnly: true }
     const token = Token(email);
-    const sql1 = `SELECT * from users where email = '${email}'`;
-    conn.query(sql1, async (err, result) => {
-        if (err) throw err;
+    const sql1 = `SELECT * from users where email = '${email}'`;   
+    conn.query(sql1, async (err, result) => {       
+        if(result.length == 0)
+        {         
+            res.json({message:'Invalid Email-Id'})
+        }
         else {
             const pass = result[0]["password"];
             const check = await bcrypt.compare(password, pass);
@@ -65,6 +74,7 @@ app.post('/login', (req, res) => {
             }
         }
     })
+}
 });
 
 
@@ -79,7 +89,6 @@ app.post('/profile/user_id', async (req, res) => {
 
         conn.query(sql2, (err, result) => {
             if (err) throw err;
-            console.log(result);
             res.json({ result });
         })
 
