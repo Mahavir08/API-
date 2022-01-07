@@ -30,51 +30,60 @@ app.post('/register', async (req, res) => {
     const hashed_password = await bcrypt.hash(password, salt);
     const token = Token(email);
 
-    var sql1 = `INSERT INTO users (name, phone, password, email) VALUES ('${name}', '${phone}', '${hashed_password}', '${email}' )`;
-    conn.query(sql1, (err, result) => {
+    var sql_check = `SELECT email from users where email= '${email}' `;
+    conn.query(sql_check, (err, result) => {
         if (err) throw err;
-        console.log('Inserted ' + result);
+        else if (result.length != 0) {
+            res.json({ message: 'Email Already Exists' });
+        }
+        else {
+            var sql1 = `INSERT INTO users (name, phone, password, email) VALUES ('${name}', '${phone}', '${hashed_password}', '${email}' )`;
+            conn.query(sql1, (err, result) => {
+                if (err) throw err;
+                console.log('Inserted ' + result);
+            })
+
+            var sql2 = `INSERT INTO users_education (id, education) VALUES ((SELECT id from users where email='${email}'), '${education}' )`;
+
+            conn.query(sql2, (err, result) => {
+                if (err) throw err;
+                console.log('Inserted ' + result);
+            })
+            const options = { expires: new Date(Date.now() + 120000), httpOnly: true }
+            res.cookie('token', token, options).json({ message: 'success', token });
+        }
+
     })
 
-    var sql2 = `INSERT INTO users_education (id, education) VALUES ((SELECT id from users where email='${email}'), '${education}' )`;
 
-    conn.query(sql2, (err, result) => {
-        if (err) throw err;
-        console.log('Inserted ' + result);
-    })
-    const options = { expires: new Date(Date.now() + 120000), httpOnly: true }
-    res.cookie('token', token, options).json({ message: 'success', token });
 });
 
 
 app.post('/login', (req, res) => {
     const { email, password } = req.body;
-    if(!email)
-    {
-        res.json({message:'Please Enter an Email'});
+    if (!email) {
+        res.json({ message: 'Please Enter an Email' });
     }
-    else
-    {
-    const options = { expires: new Date(Date.now() + 120000), httpOnly: true }
-    const token = Token(email);
-    const sql1 = `SELECT * from users where email = '${email}'`;   
-    conn.query(sql1, async (err, result) => {       
-        if(result.length == 0)
-        {         
-            res.json({message:'Invalid Email-Id'})
-        }
-        else {
-            const pass = result[0]["password"];
-            const check = await bcrypt.compare(password, pass);
-            if (!check) {
-                res.json({ message: 'Wrong password' })
+    else {
+        const options = { expires: new Date(Date.now() + 120000), httpOnly: true }
+        const token = Token(email);
+        const sql1 = `SELECT * from users where email = '${email}'`;
+        conn.query(sql1, async (err, result) => {
+            if (result.length == 0) {
+                res.json({ message: 'Invalid Email-Id' })
             }
             else {
-                res.cookie('token', token, options).json({ token });
+                const pass = result[0]["password"];
+                const check = await bcrypt.compare(password, pass);
+                if (!check) {
+                    res.json({ message: 'Wrong password' })
+                }
+                else {
+                    res.cookie('token', token, options).json({ token });
+                }
             }
-        }
-    })
-}
+        })
+    }
 });
 
 
