@@ -13,3 +13,10 @@ COMMANDS TO BE USED:
 1. npm i 
 2. npm i nodemon -g
 3. nodemon server.js
+
+
+MYSQL CREATE DATABASE AND TABLE COMMANDS:
+1. create database nodesql;
+2. use nodesql;
+3. create table users ( id INT AUTO_INCREMENT , name VARCHAR(255), email VARCHAR(255), phone VARCHAR(255), password VARCHAR(255) );
+4. create table users_education ( id INT, education VARCHAR(255) );
