@@ -24,4 +24,26 @@ MYSQL CREATE DATABASE AND TABLE COMMANDS:
 
 MYSQL TABLE STRUCTURE
 1. describe users;
+
+<pre>+----------+--------------+------+-----+---------+----------------+
+| Field    | Type         | Null | Key | Default | Extra          |
++----------+--------------+------+-----+---------+----------------+
+| id       | int          | NO   | PRI | NULL    | auto_increment |
+| name     | varchar(255) | YES  |     | NULL    |                |
+| email    | varchar(255) | YES  | UNI | NULL    |                |
+| phone    | varchar(255) | YES  |     | NULL    |                |
+| password | varchar(255) | YES  |     | NULL    |                |
++----------+--------------+------+-----+---------+----------------+
+</pre>
+
 2. describe users_education;
+
+<pre>+-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| id        | int          | YES  |     | NULL    |       |
+| education | varchar(255) | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+</pre>
+
+
+
