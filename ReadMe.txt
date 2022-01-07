@@ -18,5 +18,7 @@ COMMANDS TO BE USED:
 MYSQL CREATE DATABASE AND TABLE COMMANDS:
 1. create database nodesql;
 2. use nodesql;
-3. create table users ( id INT AUTO_INCREMENT , name VARCHAR(255), email VARCHAR(255), phone VARCHAR(255), password VARCHAR(255) );
+3. create table users ( id INT AUTO_INCREMENT , name VARCHAR(255), email VARCHAR(255), phone VARCHAR(255), password VARCHAR(255), PRIMARY KEY(id) );
 4. create table users_education ( id INT, education VARCHAR(255) );
+5. describe users;
+6. describe users_education;
