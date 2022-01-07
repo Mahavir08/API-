@@ -1,5 +1,6 @@
 It's an API Backend Node Mysql Project.
 It has 3 routes for register, login and user_details. User can check the routes with Postman or Reqbin.
+Make 1 changes on file DOTE_ENV.env file ==> rename the file as DOTE_ENV and keep it as .env 
 
 URL endpoints are :
 
